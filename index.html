@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lume Tecnologia — Soluções Digitais</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --blue: #0a1628;
+    --blue-mid: #0d2045;
+    --blue-light: #1a3a6e;
+    --accent: #f5a623;
+    --accent-hot: #ff6b00;
+    --white: #f0f4ff;
+    --gray: #8899bb;
+    --card-bg: rgba(13,32,69,0.7);
+    --border: rgba(245,166,35,0.18);
+    --glow: 0 0 40px rgba(245,166,35,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--blue);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: .4;
+  }
+
+  /* ── GRID LINES ── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(245,166,35,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,166,35,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 6vw;
+    background: rgba(10,22,40,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+  }
+
+  .nav-logo .logo-icon {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-hot));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 900; font-size: 18px; color: #000;
+    box-shadow: 0 0 20px rgba(245,166,35,0.4);
+  }
+
+  .nav-logo span {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 700; font-size: 1.2rem;
+    color: var(--white);
+    letter-spacing: .5px;
+  }
+
+  .nav-logo span em {
+    color: var(--accent); font-style: normal;
+  }
+
+  .nav-links {
+    display: flex; gap: 36px; list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--gray);
+    font-size: .88rem; font-weight: 500;
+    letter-spacing: .5px; text-transform: uppercase;
+    transition: color .25s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 0; height: 1px;
+    background: var(--accent);
+    transform: scaleX(0); transition: transform .25s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .nav-cta {
+    background: linear-gradient(135deg, var(--accent), var(--accent-hot));
+    color: #000 !important; font-weight: 700 !important;
+    padding: 10px 22px; border-radius: 8px;
+    transition: transform .2s, box-shadow .2s !important;
+  }
+
+  .nav-cta::after { display: none !important; }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,166,35,0.4) !important; color: #000 !important; }
+
+  /* hamburger */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+  .hamburger span { display: block; width: 26px; height: 2px; background: var(--white); border-radius: 2px; transition: .3s; }
+
+  /* ── HERO ── */
+  #home {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 6vw 80px;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,166,35,0.09) 0%, transparent 70%);
+    top: -150px; right: -200px;
+    pointer-events: none;
+  }
+
+  .hero-glow2 {
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(26,58,110,0.5) 0%, transparent 70%);
+    bottom: -100px; left: -100px;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    max-width: 650px; position: relative; z-index: 1;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(245,166,35,0.1);
+    border: 1px solid rgba(245,166,35,0.3);
+    border-radius: 100px; padding: 6px 16px;
+    font-size: .78rem; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 28px;
+    animation: fadeUp .6s ease both;
+  }
+
+  .hero-badge .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
+
+  h1 {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 900; font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.05; letter-spacing: -1px;
+    animation: fadeUp .7s .1s ease both;
+  }
+
+  h1 .highlight {
+    background: linear-gradient(90deg, var(--accent), var(--accent-hot));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    margin: 20px 0 40px;
+    color: var(--gray); font-size: 1.05rem; line-height: 1.7;
+    max-width: 520px;
+    animation: fadeUp .7s .2s ease both;
+  }
+
+  .hero-buttons {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    animation: fadeUp .7s .3s ease both;
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 14px 28px; border-radius: 10px;
+    font-weight: 700; font-size: .95rem; text-decoration: none;
+    transition: transform .2s, box-shadow .2s;
+    cursor: pointer; border: none;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent-hot));
+    color: #000;
+    box-shadow: 0 4px 24px rgba(245,166,35,0.3);
+  }
+
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(245,166,35,0.45); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(8px);
+  }
+
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
+
+  .btn-whatsapp {
+    background: #25D366;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+  }
+
+  .btn-whatsapp:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(37,211,102,0.45); }
+
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 60px;
+    animation: fadeUp .7s .4s ease both;
+  }
+
+  .stat strong {
+    display: block;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 2rem; font-weight: 900; color: var(--accent);
+  }
+
+  .stat span { font-size: .82rem; color: var(--gray); }
+
+  .hero-visual {
+    position: absolute; right: 4vw; top: 50%; transform: translateY(-50%);
+    width: min(480px, 42vw);
+    z-index: 1;
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float { 0%,100%{transform:translateY(-50%) translateY(0)} 50%{transform:translateY(-50%) translateY(-16px)} }
+
+  .console-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 32px;
+    backdrop-filter: blur(20px);
+    box-shadow: var(--glow), 0 24px 60px rgba(0,0,0,0.5);
+    text-align: center;
+  }
+
+  .console-emoji { font-size: 5rem; margin-bottom: 12px; display: block; }
+
+  .console-card h3 {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;
+  }
+
+  .console-price {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 2rem; font-weight: 900;
+    background: linear-gradient(90deg, var(--accent), var(--accent-hot));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin: 8px 0;
+  }
+
+  .console-badge-list {
+    display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 14px;
+  }
+
+  .tag {
+    font-size: .73rem; font-weight: 600; letter-spacing: .5px;
+    padding: 4px 12px; border-radius: 100px;
+    background: rgba(245,166,35,0.12);
+    border: 1px solid rgba(245,166,35,0.25);
+    color: var(--accent);
+  }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 6vw; position: relative; z-index: 1; }
+
+  .section-label {
+    font-size: .75rem; font-weight: 700; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .section-label::before {
+    content: ''; display: block; width: 28px; height: 2px;
+    background: var(--accent); border-radius: 2px;
+  }
+
+  .section-title {
+    font-family: 'Exo 2', sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 900; line-height: 1.1; margin-bottom: 16px;
+  }
+
+  .section-sub {
+    color: var(--gray); font-size: 1rem; line-height: 1.7; max-width: 540px;
+    margin-bottom: 60px;
+  }
+
+  /* ── PRODUTOS ── */
+  #produtos { background: linear-gradient(180deg, transparent, rgba(13,32,69,0.4), transparent); }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .product-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    backdrop-filter: blur(16px);
+    transition: transform .3s, box-shadow .3s, border-color .3s;
+    position: relative; overflow: hidden;
+  }
+
+  .product-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0; transition: opacity .3s;
+  }
+
+  .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.4), var(--glow); border-color: rgba(245,166,35,0.35); }
+  .product-card:hover::before { opacity: 1; }
+
+  .promo-badge {
+    position: absolute; top: 16px; right: 16px;
+    background: linear-gradient(135deg, var(--accent-hot), #e50000);
+    color: #fff; font-size: .7rem; font-weight: 800; letter-spacing: .5px;
+    padding: 4px 10px; border-radius: 100px; text-transform: uppercase;
+  }
+
+  .product-icon {
+    font-size: 3.5rem; margin-bottom: 14px; display: block;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+  }
+
+  .product-card h3 {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 1.1rem; font-weight: 800; margin-bottom: 6px;
+  }
+
+  .product-desc {
+    color: var(--gray); font-size: .87rem; line-height: 1.6; margin-bottom: 18px;
+  }
+
+  .product-price {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 1.7rem; font-weight: 900;
+    color: var(--accent); margin-bottom: 4px;
+  }
+
+  .product-installment {
+    font-size: .78rem; color: var(--gray); margin-bottom: 20px;
+  }
+
+  .btn-sm {
+    padding: 10px 20px; font-size: .87rem; border-radius: 8px; width: 100%;
+    justify-content: center;
+  }
+
+  /* ── SERVIÇOS ── */
+  #servicos { background: linear-gradient(180deg, transparent, rgba(26,58,110,0.15), transparent); }
+
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;
+  }
+
+  .service-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px; padding: 36px 30px;
+    backdrop-filter: blur(16px);
+    transition: transform .3s, box-shadow .3s;
+    position: relative; overflow: hidden;
+  }
+
+  .service-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-hot));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .4s;
+  }
+
+  .service-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+  .service-card:hover::after { transform: scaleX(1); }
+
+  .service-icon {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, rgba(245,166,35,0.15), rgba(255,107,0,0.08));
+    border: 1px solid rgba(245,166,35,0.25);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 20px;
+  }
+
+  .service-card h3 {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 1.15rem; font-weight: 800; margin-bottom: 10px;
+  }
+
+  .service-card p { color: var(--gray); font-size: .9rem; line-height: 1.7; margin-bottom: 20px; }
+
+  .service-perks { list-style: none; margin-bottom: 26px; }
+
+  .service-perks li {
+    font-size: .87rem; color: var(--gray);
+    display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+  }
+
+  .service-perks li::before { content: '✓'; color: var(--accent); font-weight: 800; font-size: .9rem; }
+
+  /* ── SOBRE ── */
+  #sobre {
+    display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 80px;
+  }
+
+  .sobre-visual {
+    position: relative;
+  }
+
+  .sobre-main-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 24px; padding: 40px;
+    backdrop-filter: blur(16px);
+    box-shadow: var(--glow);
+    text-align: center;
+  }
+
+  .logo-big {
+    width: 90px; height: 90px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-hot));
+    border-radius: 22px; margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Exo 2', sans-serif; font-weight: 900; font-size: 28px; color: #000;
+    box-shadow: 0 8px 32px rgba(245,166,35,0.35);
+  }
+
+  .sobre-main-card h3 {
+    font-family: 'Exo 2', sans-serif; font-size: 1.3rem; font-weight: 800;
+  }
+
+  .sobre-main-card p { color: var(--gray); font-size: .9rem; margin-top: 8px; }
+
+  .sobre-float {
+    position: absolute; bottom: -24px; right: -24px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-hot));
+    border-radius: 16px; padding: 18px 24px;
+    box-shadow: 0 12px 30px rgba(245,166,35,0.3);
+    color: #000;
+  }
+
+  .sobre-float strong { display: block; font-family: 'Exo 2', sans-serif; font-size: 1.6rem; font-weight: 900; }
+  .sobre-float span { font-size: .78rem; font-weight: 700; }
+
+  .values-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
+
+  .value-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px;
+    backdrop-filter: blur(10px);
+    transition: border-color .3s;
+  }
+
+  .value-item:hover { border-color: rgba(245,166,35,0.4); }
+
+  .value-item .vi { font-size: 1.4rem; margin-bottom: 8px; display: block; }
+  .value-item strong { display: block; font-family: 'Exo 2', sans-serif; font-size: .95rem; font-weight: 700; margin-bottom: 4px; }
+  .value-item span { font-size: .82rem; color: var(--gray); }
+
+  /* ── CONTATO ── */
+  #contato { background: linear-gradient(180deg, transparent, rgba(13,32,69,0.5)); }
+
+  .contato-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 60px; align-items: start; }
+
+  .contato-info h2 {
+    font-family: 'Exo 2', sans-serif; font-size: 2rem; font-weight: 900;
+    margin: 16px 0 12px;
+  }
+
+  .contato-info p { color: var(--gray); font-size: .95rem; line-height: 1.7; margin-bottom: 32px; }
+
+  .contact-item {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+  }
+
+  .contact-icon {
+    width: 44px; height: 44px; border-radius: 11px;
+    background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; color: var(--accent); flex-shrink: 0;
+  }
+
+  .contact-item strong { display: block; font-size: .88rem; font-weight: 600; }
+  .contact-item span { font-size: .82rem; color: var(--gray); }
+
+  .form-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 24px; padding: 36px;
+    backdrop-filter: blur(16px);
+  }
+
+  .form-card h3 {
+    font-family: 'Exo 2', sans-serif; font-size: 1.3rem; font-weight: 800; margin-bottom: 24px;
+  }
+
+  .form-group { margin-bottom: 18px; }
+
+  .form-group label {
+    display: block; font-size: .82rem; font-weight: 600; color: var(--gray);
+    margin-bottom: 8px; letter-spacing: .3px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%; padding: 13px 16px;
+    background: rgba(10,22,40,0.6); border: 1.5px solid rgba(255,255,255,0.08);
+    border-radius: 10px; color: var(--white);
+    font-family: 'Inter', sans-serif; font-size: .92rem;
+    transition: border-color .25s, box-shadow .25s;
+    outline: none; resize: vertical;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(245,166,35,0.12);
+  }
+
+  .form-group textarea { min-height: 110px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--blue-mid);
+    border-top: 1px solid var(--border);
+    padding: 40px 6vw;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 20px;
+    position: relative; z-index: 1;
+  }
+
+  .footer-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Exo 2', sans-serif; font-weight: 700;
+    font-size: 1.1rem; color: var(--white);
+    text-decoration: none;
+  }
+
+  .footer-logo .fi {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-hot));
+    border-radius: 9px; display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 15px; color: #000;
+  }
+
+  .footer-links { display: flex; gap: 28px; }
+  .footer-links a { color: var(--gray); font-size: .87rem; text-decoration: none; transition: color .2s; }
+  .footer-links a:hover { color: var(--accent); }
+
+  .footer-copy { color: var(--gray); font-size: .8rem; }
+
+  /* ── WHATSAPP FLOAT ── */
+  .wpp-float {
+    position: fixed; bottom: 28px; right: 28px;
+    width: 58px; height: 58px; border-radius: 50%;
+    background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; color: #fff;
+    box-shadow: 0 6px 24px rgba(37,211,102,0.4);
+    text-decoration: none; z-index: 999;
+    animation: wppPulse 2s ease-in-out infinite;
+    transition: transform .2s;
+  }
+
+  .wpp-float:hover { transform: scale(1.12); }
+
+  @keyframes wppPulse {
+    0%,100%{ box-shadow: 0 6px 24px rgba(37,211,102,0.4), 0 0 0 0 rgba(37,211,102,0.3); }
+    50%{ box-shadow: 0 6px 24px rgba(37,211,102,0.4), 0 0 0 14px rgba(37,211,102,0); }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    nav.open .nav-links {
+      display: flex; flex-direction: column; gap: 0;
+      position: fixed; inset: 0;
+      background: rgba(10,22,40,0.97);
+      backdrop-filter: blur(20px);
+      align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      z-index: 1000;
+    }
+
+    nav.open .nav-links li { padding: 14px 0; }
+
+    #home { flex-direction: column; padding-top: 140px; }
+    .hero-visual { position: static; width: 100%; transform: none; margin-top: 40px; }
+    .hero-stats { gap: 24px; }
+
+    #sobre { grid-template-columns: 1fr; gap: 40px; }
+    .sobre-visual { display: none; }
+
+    .contato-grid { grid-template-columns: 1fr; gap: 40px; }
+
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (max-width: 540px) {
+    .hero-buttons { flex-direction: column; }
+    .btn { width: 100%; justify-content: center; }
+    .values-grid { grid-template-columns: 1fr; }
+    .hero-stats { flex-wrap: wrap; gap: 20px; }
+  }
+
+  /* divider */
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    position: relative; z-index: 1;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#home">
+    <div class="logo-icon">L</div>
+    <span>Lume <em>Tecnologia</em></span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Início</a></li>
+    <li><a href="#produtos">Produtos</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#contato">Contato</a></li>
+    <li><a href="https://wa.me/5586920011227" class="nav-cta" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Teresina · Piauí · Brasil
+    </div>
+    <h1>Tecnologia de <span class="highlight">qualidade</span> com os melhores preços</h1>
+    <p class="hero-sub">Consoles, eletrônicos e soluções digitais para elevar o seu negócio. Da loja ao digital, a Lume cuida de tudo.</p>
+    <div class="hero-buttons">
+      <a href="#produtos" class="btn btn-primary"><i class="fas fa-gamepad"></i> Ver Produtos</a>
+      <a href="https://wa.me/5586920011227" class="btn btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Falar no WhatsApp</a>
+      <a href="#servicos" class="btn btn-outline"><i class="fas fa-globe"></i> Criar meu site</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><strong>100%</strong><span>Satisfação garantida</span></div>
+      <div class="stat"><strong>24h</strong><span>Atendimento rápido</span></div>
+      <div class="stat"><strong>+50</strong><span>Clientes atendidos</span></div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="console-card">
+      <span class="console-emoji">🎮</span>
+      <h3>Xbox Series S</h3>
+      <p style="color:var(--gray);font-size:.87rem">512GB · All-Digital · 1440p</p>
+      <div class="console-price">R$ 2.199</div>
+      <p style="color:var(--gray);font-size:.78rem;margin-bottom:14px">ou 12× de R$ 183,25</p>
+      <div class="console-badge-list">
+        <span class="tag">Novo</span>
+        <span class="tag">Garantia</span>
+        <span class="tag">Entrega</span>
+      </div>
+      <a href="https://wa.me/5586920011227?text=Olá!%20Quero%20saber%20mais%20sobre%20o%20Xbox%20Series%20S" 
+         class="btn btn-primary btn-sm" style="margin-top:20px" target="_blank">
+        <i class="fab fa-whatsapp"></i> Pedir agora
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRODUTOS -->
+<section id="produtos">
+  <div class="reveal">
+    <p class="section-label">Catálogo</p>
+    <h2 class="section-title">Nossos <span style="color:var(--accent)">Produtos</span></h2>
+    <p class="section-sub">Consoles, acessórios e eletrônicos com garantia, preço justo e entrega rápida em Teresina e região.</p>
+  </div>
+
+  <div class="products-grid">
+    <div class="product-card reveal">
+      <span class="promo-badge">🔥 Mais vendido</span>
+      <span class="product-icon">🎮</span>
+      <h3>Xbox Series S</h3>
+      <p class="product-desc">512GB all-digital, jogos 1440p, retrocompatível com centenas de títulos.</p>
+      <div class="product-price">R$ 2.199</div>
+      <p class="product-installment">ou 12× de R$ 183,25 sem juros</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Xbox%20Series%20S!" class="btn btn-primary btn-sm" target="_blank">
+        <i class="fab fa-whatsapp"></i> Comprar agora
+      </a>
+    </div>
+
+    <div class="product-card reveal">
+      <span class="product-icon">🎮</span>
+      <h3>PlayStation 4 Slim</h3>
+      <p class="product-desc">500GB, 1 controle original, sistema atualizado e pronto para jogar.</p>
+      <div class="product-price">R$ 1.599</div>
+      <p class="product-installment">ou 12× de R$ 133,25 sem juros</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20PS4%20Slim!" class="btn btn-primary btn-sm" target="_blank">
+        <i class="fab fa-whatsapp"></i> Comprar agora
+      </a>
+    </div>
+
+    <div class="product-card reveal">
+      <span class="promo-badge">🎯 Oferta</span>
+      <span class="product-icon">🕹️</span>
+      <h3>Controle DualShock 4</h3>
+      <p class="product-desc">Original Sony, touchpad, vibração e compatível com PS4 e PC via USB.</p>
+      <div class="product-price">R$ 349</div>
+      <p class="product-installment">ou 6× de R$ 58,17 sem juros</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Controle%20DualShock%204!" class="btn btn-primary btn-sm" target="_blank">
+        <i class="fab fa-whatsapp"></i> Comprar agora
+      </a>
+    </div>
+
+    <div class="product-card reveal">
+      <span class="product-icon">🎧</span>
+      <h3>Headset Gamer</h3>
+      <p class="product-desc">Som surround 7.1, microfone com cancelamento de ruído, compatível com Xbox, PS4 e PC.</p>
+      <div class="product-price">R$ 219</div>
+      <p class="product-installment">ou 6× de R$ 36,50 sem juros</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Headset%20Gamer!" class="btn btn-primary btn-sm" target="_blank">
+        <i class="fab fa-whatsapp"></i> Comprar agora
+      </a>
+    </div>
+
+    <div class="product-card reveal">
+      <span class="product-icon">🖱️</span>
+      <h3>Mouse Gamer RGB</h3>
+      <p class="product-desc">6400 DPI ajustável, 7 botões programáveis, iluminação RGB e grip ergonômico.</p>
+      <div class="product-price">R$ 129</div>
+      <p class="product-installment">ou 3× de R$ 43,00 sem juros</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Mouse%20Gamer!" class="btn btn-primary btn-sm" target="_blank">
+        <i class="fab fa-whatsapp"></i> Comprar agora
+      </a>
+    </div>
+
+    <div class="product-card reveal">
+      <span class="promo-badge">⚡ Destaque</span>
+      <span class="product-icon">📱</span>
+      <h3>Cabo USB-C Fast Charge</h3>
+      <p class="product-desc">3 metros, carga rápida 65W, dados 480 Mbps, reforçado em nylon trançado.</p>
+      <div class="product-price">R$ 49</div>
+      <p class="product-installment">à vista no Pix</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Cabo%20USB-C!" class="btn btn-primary btn-sm" target="_blank">
+        <i class="fab fa-whatsapp"></i> Comprar agora
+      </a>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:48px" class="reveal">
+    <a href="https://wa.me/5586920011227?text=Oi!%20Quero%20ver%20mais%20produtos%20da%20Lume%20Tecnologia" 
+       class="btn btn-outline" target="_blank">
+      <i class="fas fa-th-large"></i> Ver catálogo completo
+    </a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="reveal">
+    <p class="section-label">Soluções digitais</p>
+    <h2 class="section-title">Criamos sites que <span style="color:var(--accent)">vendem</span></h2>
+    <p class="section-sub">Transformamos o seu negócio com presença digital profissional, moderna e feita para converter clientes.</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">🌐</div>
+      <h3>Site Institucional</h3>
+      <p>Apresente sua empresa com credibilidade. Um site moderno e bem estruturado que transmite confiança desde o primeiro clique.</p>
+      <ul class="service-perks">
+        <li>Design exclusivo e personalizado</li>
+        <li>100% responsivo para celular</li>
+        <li>SEO básico incluso</li>
+        <li>Formulário de contato</li>
+        <li>Entrega em até 7 dias</li>
+      </ul>
+      <a href="https://wa.me/5586920011227?text=Quero%20um%20site%20institucional!" class="btn btn-outline btn-sm" target="_blank">
+        <i class="fas fa-paper-plane"></i> Solicitar orçamento
+      </a>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">🛒</div>
+      <h3>Loja Virtual</h3>
+      <p>Venda seus produtos online 24 horas por dia, 7 dias por semana, com uma loja profissional e fácil de gerenciar.</p>
+      <ul class="service-perks">
+        <li>Catálogo de produtos</li>
+        <li>Integração com WhatsApp</li>
+        <li>Pagamento online (Pix, cartão)</li>
+        <li>Painel administrativo</li>
+        <li>Treinamento incluso</li>
+      </ul>
+      <a href="https://wa.me/5586920011227?text=Quero%20uma%20loja%20virtual!" class="btn btn-primary btn-sm" target="_blank">
+        <i class="fas fa-paper-plane"></i> Solicitar orçamento
+      </a>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">📲</div>
+      <h3>Landing Page</h3>
+      <p>Página focada em conversão, ideal para campanhas, captação de leads e divulgação de produtos ou serviços específicos.</p>
+      <ul class="service-perks">
+        <li>Alta taxa de conversão</li>
+        <li>Integração com Instagram/Facebook</li>
+        <li>Formulário e botão WhatsApp</li>
+        <li>Velocidade otimizada</li>
+        <li>Entrega em 3 dias</li>
+      </ul>
+      <a href="https://wa.me/5586920011227?text=Quero%20uma%20landing%20page!" class="btn btn-outline btn-sm" target="_blank">
+        <i class="fas fa-paper-plane"></i> Solicitar orçamento
+      </a>
+    </div>
+  </div>
+
+  <!-- Diferenciais -->
+  <div style="margin-top:60px;background:var(--card-bg);border:1px solid var(--border);border-radius:24px;padding:40px;backdrop-filter:blur(16px)" class="reveal">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:32px;text-align:center">
+      <div>
+        <div style="font-size:2rem;margin-bottom:8px">⚡</div>
+        <strong style="font-family:'Exo 2',sans-serif;font-size:1rem;display:block;margin-bottom:4px">Entrega rápida</strong>
+        <span style="color:var(--gray);font-size:.85rem">Seu site no ar em dias</span>
+      </div>
+      <div>
+        <div style="font-size:2rem;margin-bottom:8px">💎</div>
+        <strong style="font-family:'Exo 2',sans-serif;font-size:1rem;display:block;margin-bottom:4px">Design premium</strong>
+        <span style="color:var(--gray);font-size:.85rem">Layouts exclusivos e modernos</span>
+      </div>
+      <div>
+        <div style="font-size:2rem;margin-bottom:8px">📱</div>
+        <strong style="font-family:'Exo 2',sans-serif;font-size:1rem;display:block;margin-bottom:4px">100% responsivo</strong>
+        <span style="color:var(--gray);font-size:.85rem">Perfeito no celular e desktop</span>
+      </div>
+      <div>
+        <div style="font-size:2rem;margin-bottom:8px">🛠️</div>
+        <strong style="font-family:'Exo 2',sans-serif;font-size:1rem;display:block;margin-bottom:4px">Suporte incluso</strong>
+        <span style="color:var(--gray);font-size:.85rem">Suporte pós-entrega garantido</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SOBRE -->
+<section id="sobre" style="display:block">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center" class="sobre-wrap reveal">
+    <div>
+      <p class="section-label">Quem somos</p>
+      <h2 class="section-title">A empresa por trás da <span style="color:var(--accent)">Lume</span></h2>
+      <p style="color:var(--gray);font-size:.97rem;line-height:1.75;margin-bottom:28px">
+        A Lume Tecnologia nasceu com um propósito claro: levar tecnologia de qualidade para empresas e consumidores de Teresina com honestidade, preços justos e atendimento humanizado.
+      </p>
+      <p style="color:var(--gray);font-size:.97rem;line-height:1.75;margin-bottom:40px">
+        Atuamos tanto na revenda de consoles e eletrônicos quanto na criação de soluções digitais — sites, lojas virtuais e sistemas simples — para negócios locais que querem crescer no ambiente online.
+      </p>
+
+      <div class="values-grid">
+        <div class="value-item">
+          <span class="vi">🎯</span>
+          <strong>Foco no cliente</strong>
+          <span>Atendimento próximo e personalizado</span>
+        </div>
+        <div class="value-item">
+          <span class="vi">✅</span>
+          <strong>Qualidade garantida</strong>
+          <span>Produtos e serviços com garantia real</span>
+        </div>
+        <div class="value-item">
+          <span class="vi">💡</span>
+          <strong>Inovação</strong>
+          <span>Sempre atualizados com o mercado</span>
+        </div>
+        <div class="value-item">
+          <span class="vi">🤝</span>
+          <strong>Confiança</strong>
+          <span>Transparência em cada negociação</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sobre-visual" style="position:relative">
+      <div class="sobre-main-card">
+        <div class="logo-big">L</div>
+        <h3>Lume Tecnologia</h3>
+        <p>Soluções digitais para empresas</p>
+        <p style="margin-top:4px">Sites · Eletrônicos · Sistemas simples</p>
+
+        <div style="margin-top:28px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+          <span class="tag">PlayStation</span>
+          <span class="tag">Xbox</span>
+          <span class="tag">Sites</span>
+          <span class="tag">Acessórios</span>
+        </div>
+
+        <p style="margin-top:24px;color:var(--gray);font-size:.83rem">
+          <i class="fas fa-map-marker-alt" style="color:var(--accent)"></i>
+          Teresina, Piauí · Brasil
+        </p>
+      </div>
+
+      <div class="sobre-float">
+        <strong>102</strong>
+        <span>Seguidores no Instagram</span>
+      </div>
+
+      <!-- Glow behind card -->
+      <div style="position:absolute;inset:-40px;background:radial-gradient(circle,rgba(245,166,35,0.07),transparent 70%);pointer-events:none;border-radius:50%;z-index:-1"></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="contato-grid">
+    <div class="contato-info reveal">
+      <p class="section-label">Fale conosco</p>
+      <h2>Vamos conversar<span style="color:var(--accent)">?</span></h2>
+      <p>Tire suas dúvidas, faça seu pedido ou solicite um orçamento para o seu site. Respondemos rápido!</p>
+
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+        <div>
+          <strong>(86) 92001-1227</strong>
+          <span>WhatsApp — atendimento imediato</span>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fab fa-instagram"></i></div>
+        <div>
+          <strong>@lume.tecnologia_</strong>
+          <span>Instagram</span>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div>
+          <strong>Teresina, Piauí</strong>
+          <span>Atendimento presencial e delivery</span>
+        </div>
+      </div>
+
+      <div style="margin-top:36px">
+        <a href="https://wa.me/5586920011227" class="btn btn-whatsapp" target="_blank">
+          <i class="fab fa-whatsapp"></i> Abrir WhatsApp agora
+        </a>
+      </div>
+    </div>
+
+    <div class="form-card reveal">
+      <h3>📩 Deixe uma mensagem</h3>
+      <div class="form-group">
+        <label>Seu nome</label>
+        <input type="text" placeholder="Como posso te chamar?">
+      </div>
+      <div class="form-group">
+        <label>Telefone / WhatsApp</label>
+        <input type="tel" placeholder="(86) 9 0000-0000">
+      </div>
+      <div class="form-group">
+        <label>Assunto</label>
+        <input type="text" placeholder="Ex: Quero um site para minha loja">
+      </div>
+      <div class="form-group">
+        <label>Mensagem</label>
+        <textarea placeholder="Conta mais sobre o que você precisa..."></textarea>
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="sendForm()">
+        <i class="fas fa-paper-plane"></i> Enviar mensagem
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a class="footer-logo" href="#home">
+    <div class="fi">L</div>
+    Lume Tecnologia
+  </a>
+  <nav class="footer-links">
+    <a href="#home">Início</a>
+    <a href="#produtos">Produtos</a>
+    <a href="#servicos">Serviços</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#contato">Contato</a>
+  </nav>
+  <p class="footer-copy">© 2025 Lume Tecnologia · Teresina, PI</p>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a class="wpp-float" href="https://wa.me/5586920011227" target="_blank" title="Chamar no WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<script>
+  // Hamburger
+  function toggleMenu() {
+    document.getElementById('navbar').classList.toggle('open');
+  }
+
+  // Close menu on link click
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('navbar').classList.remove('open');
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Nav shadow on scroll
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.style.background = window.scrollY > 40
+      ? 'rgba(10,22,40,0.97)'
+      : 'rgba(10,22,40,0.85)';
+  });
+
+  // Form send
+  function sendForm() {
+    const name = document.querySelector('input[placeholder*="chamar"]').value;
+    const phone = document.querySelector('input[type="tel"]').value;
+    const subject = document.querySelector('input[placeholder*="site"]').value;
+    const msg = document.querySelector('textarea').value;
+    if (!name || !phone) {
+      alert('Por favor, preencha pelo menos o nome e o telefone.');
+      return;
+    }
+    const text = encodeURIComponent(
+      `Olá! Me chamo ${name}.\nTelefone: ${phone}\nAssunto: ${subject}\nMensagem: ${msg}`
+    );
+    window.open(`https://wa.me/5586920011227?text=${text}`, '_blank');
+  }
+</script>
+</body>
+</html>
