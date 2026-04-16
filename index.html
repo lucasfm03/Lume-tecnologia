@@ -6,659 +6,16 @@
 <title>Lume Tecnologia — Soluções Digitais</title>
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-  :root {
-    --blue: #0a1628;
-    --blue-mid: #0d2045;
-    --blue-light: #1a3a6e;
-    --accent: #f5a623;
-    --accent-hot: #ff6b00;
-    --white: #f0f4ff;
-    --gray: #8899bb;
-    --card-bg: rgba(13,32,69,0.7);
-    --border: rgba(245,166,35,0.18);
-    --glow: 0 0 40px rgba(245,166,35,0.12);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--blue);
-    color: var(--white);
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
-  }
-
-  /* ── NOISE OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 0; opacity: .4;
-  }
-
-  /* ── GRID LINES ── */
-  body::after {
-    content: '';
-    position: fixed; inset: 0;
-    background-image:
-      linear-gradient(rgba(245,166,35,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(245,166,35,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none; z-index: 0;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 6vw;
-    background: rgba(10,22,40,0.85);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .nav-logo {
-    display: flex; align-items: center; gap: 12px;
-    text-decoration: none;
-  }
-
-  .nav-logo .logo-icon {
-    width: 42px; height: 42px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-hot));
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Exo 2', sans-serif;
-    font-weight: 900; font-size: 18px; color: #000;
-    box-shadow: 0 0 20px rgba(245,166,35,0.4);
-  }
-
-  .nav-logo span {
-    font-family: 'Exo 2', sans-serif;
-    font-weight: 700; font-size: 1.2rem;
-    color: var(--white);
-    letter-spacing: .5px;
-  }
-
-  .nav-logo span em {
-    color: var(--accent); font-style: normal;
-  }
-
-  .nav-links {
-    display: flex; gap: 36px; list-style: none;
-  }
-
-  .nav-links a {
-    text-decoration: none;
-    color: var(--gray);
-    font-size: .88rem; font-weight: 500;
-    letter-spacing: .5px; text-transform: uppercase;
-    transition: color .25s;
-    position: relative;
-  }
-
-  .nav-links a::after {
-    content: '';
-    position: absolute; bottom: -4px; left: 0; right: 0; height: 1px;
-    background: var(--accent);
-    transform: scaleX(0); transition: transform .25s;
-  }
-
-  .nav-links a:hover { color: var(--white); }
-  .nav-links a:hover::after { transform: scaleX(1); }
-
-  .nav-cta {
-    background: linear-gradient(135deg, var(--accent), var(--accent-hot));
-    color: #000 !important; font-weight: 700 !important;
-    padding: 10px 22px; border-radius: 8px;
-    transition: transform .2s, box-shadow .2s !important;
-  }
-
-  .nav-cta::after { display: none !important; }
-  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,166,35,0.4) !important; color: #000 !important; }
-
-  /* hamburger */
-  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
-  .hamburger span { display: block; width: 26px; height: 2px; background: var(--white); border-radius: 2px; transition: .3s; }
-
-  /* ── HERO ── */
-  #home {
-    min-height: 100vh;
-    display: flex; align-items: center;
-    padding: 120px 6vw 80px;
-    position: relative; overflow: hidden;
-  }
-
-  .hero-glow {
-    position: absolute;
-    width: 700px; height: 700px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(245,166,35,0.09) 0%, transparent 70%);
-    top: -150px; right: -200px;
-    pointer-events: none;
-  }
-
-  .hero-glow2 {
-    position: absolute;
-    width: 500px; height: 500px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(26,58,110,0.5) 0%, transparent 70%);
-    bottom: -100px; left: -100px;
-    pointer-events: none;
-  }
-
-  .hero-content {
-    max-width: 650px; position: relative; z-index: 1;
-  }
-
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(245,166,35,0.1);
-    border: 1px solid rgba(245,166,35,0.3);
-    border-radius: 100px; padding: 6px 16px;
-    font-size: .78rem; font-weight: 600; letter-spacing: 1px;
-    text-transform: uppercase; color: var(--accent); margin-bottom: 28px;
-    animation: fadeUp .6s ease both;
-  }
-
-  .hero-badge .dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 1.5s infinite;
-  }
-
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
-
-  h1 {
-    font-family: 'Exo 2', sans-serif;
-    font-weight: 900; font-size: clamp(2.4rem, 5vw, 4rem);
-    line-height: 1.05; letter-spacing: -1px;
-    animation: fadeUp .7s .1s ease both;
-  }
-
-  h1 .highlight {
-    background: linear-gradient(90deg, var(--accent), var(--accent-hot));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-
-  .hero-sub {
-    margin: 20px 0 40px;
-    color: var(--gray); font-size: 1.05rem; line-height: 1.7;
-    max-width: 520px;
-    animation: fadeUp .7s .2s ease both;
-  }
-
-  .hero-buttons {
-    display: flex; gap: 14px; flex-wrap: wrap;
-    animation: fadeUp .7s .3s ease both;
-  }
-
-  .btn {
-    display: inline-flex; align-items: center; gap: 9px;
-    padding: 14px 28px; border-radius: 10px;
-    font-weight: 700; font-size: .95rem; text-decoration: none;
-    transition: transform .2s, box-shadow .2s;
-    cursor: pointer; border: none;
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent), var(--accent-hot));
-    color: #000;
-    box-shadow: 0 4px 24px rgba(245,166,35,0.3);
-  }
-
-  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(245,166,35,0.45); }
-
-  .btn-outline {
-    background: transparent;
-    color: var(--white);
-    border: 1.5px solid rgba(255,255,255,0.2);
-    backdrop-filter: blur(8px);
-  }
-
-  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
-
-  .btn-whatsapp {
-    background: #25D366;
-    color: #fff;
-    box-shadow: 0 4px 20px rgba(37,211,102,0.3);
-  }
-
-  .btn-whatsapp:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(37,211,102,0.45); }
-
-  .hero-stats {
-    display: flex; gap: 40px; margin-top: 60px;
-    animation: fadeUp .7s .4s ease both;
-  }
-
-  .stat strong {
-    display: block;
-    font-family: 'Exo 2', sans-serif;
-    font-size: 2rem; font-weight: 900; color: var(--accent);
-  }
-
-  .stat span { font-size: .82rem; color: var(--gray); }
-
-  .hero-visual {
-    position: absolute; right: 4vw; top: 50%; transform: translateY(-50%);
-    width: min(480px, 42vw);
-    z-index: 1;
-    animation: float 4s ease-in-out infinite;
-  }
-
-  @keyframes float { 0%,100%{transform:translateY(-50%) translateY(0)} 50%{transform:translateY(-50%) translateY(-16px)} }
-
-  .console-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 32px;
-    backdrop-filter: blur(20px);
-    box-shadow: var(--glow), 0 24px 60px rgba(0,0,0,0.5);
-    text-align: center;
-  }
-
-  .console-emoji { font-size: 5rem; margin-bottom: 12px; display: block; }
-
-  .console-card h3 {
-    font-family: 'Exo 2', sans-serif;
-    font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;
-  }
-
-  .console-price {
-    font-family: 'Exo 2', sans-serif;
-    font-size: 2rem; font-weight: 900;
-    background: linear-gradient(90deg, var(--accent), var(--accent-hot));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    margin: 8px 0;
-  }
-
-  .console-badge-list {
-    display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 14px;
-  }
-
-  .tag {
-    font-size: .73rem; font-weight: 600; letter-spacing: .5px;
-    padding: 4px 12px; border-radius: 100px;
-    background: rgba(245,166,35,0.12);
-    border: 1px solid rgba(245,166,35,0.25);
-    color: var(--accent);
-  }
-
-  @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-
-  /* ── SECTIONS ── */
-  section { padding: 100px 6vw; position: relative; z-index: 1; }
-
-  .section-label {
-    font-size: .75rem; font-weight: 700; letter-spacing: 2.5px;
-    text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
-    display: flex; align-items: center; gap: 10px;
-  }
-
-  .section-label::before {
-    content: ''; display: block; width: 28px; height: 2px;
-    background: var(--accent); border-radius: 2px;
-  }
-
-  .section-title {
-    font-family: 'Exo 2', sans-serif;
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-    font-weight: 900; line-height: 1.1; margin-bottom: 16px;
-  }
-
-  .section-sub {
-    color: var(--gray); font-size: 1rem; line-height: 1.7; max-width: 540px;
-    margin-bottom: 60px;
-  }
-
-  /* ── PRODUTOS ── */
-  #produtos { background: linear-gradient(180deg, transparent, rgba(13,32,69,0.4), transparent); }
-
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 24px;
-  }
-
-  .product-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 28px;
-    backdrop-filter: blur(16px);
-    transition: transform .3s, box-shadow .3s, border-color .3s;
-    position: relative; overflow: hidden;
-  }
-
-  .product-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    opacity: 0; transition: opacity .3s;
-  }
-
-  .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.4), var(--glow); border-color: rgba(245,166,35,0.35); }
-  .product-card:hover::before { opacity: 1; }
-
-  .promo-badge {
-    position: absolute; top: 16px; right: 16px;
-    background: linear-gradient(135deg, var(--accent-hot), #e50000);
-    color: #fff; font-size: .7rem; font-weight: 800; letter-spacing: .5px;
-    padding: 4px 10px; border-radius: 100px; text-transform: uppercase;
-  }
-
-  .product-icon {
-    font-size: 3.5rem; margin-bottom: 14px; display: block;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-  }
-
-  .product-card h3 {
-    font-family: 'Exo 2', sans-serif;
-    font-size: 1.1rem; font-weight: 800; margin-bottom: 6px;
-  }
-
-  .product-desc {
-    color: var(--gray); font-size: .87rem; line-height: 1.6; margin-bottom: 18px;
-  }
-
-  .product-price {
-    font-family: 'Exo 2', sans-serif;
-    font-size: 1.7rem; font-weight: 900;
-    color: var(--accent); margin-bottom: 4px;
-  }
-
-  .product-installment {
-    font-size: .78rem; color: var(--gray); margin-bottom: 20px;
-  }
-
-  .btn-sm {
-    padding: 10px 20px; font-size: .87rem; border-radius: 8px; width: 100%;
-    justify-content: center;
-  }
-
-  /* ── SERVIÇOS ── */
-  #servicos { background: linear-gradient(180deg, transparent, rgba(26,58,110,0.15), transparent); }
-
-  .services-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;
-  }
-
-  .service-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 20px; padding: 36px 30px;
-    backdrop-filter: blur(16px);
-    transition: transform .3s, box-shadow .3s;
-    position: relative; overflow: hidden;
-  }
-
-  .service-card::after {
-    content: '';
-    position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, var(--accent), var(--accent-hot));
-    transform: scaleX(0); transform-origin: left;
-    transition: transform .4s;
-  }
-
-  .service-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
-  .service-card:hover::after { transform: scaleX(1); }
-
-  .service-icon {
-    width: 56px; height: 56px;
-    background: linear-gradient(135deg, rgba(245,166,35,0.15), rgba(255,107,0,0.08));
-    border: 1px solid rgba(245,166,35,0.25);
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem; margin-bottom: 20px;
-  }
-
-  .service-card h3 {
-    font-family: 'Exo 2', sans-serif;
-    font-size: 1.15rem; font-weight: 800; margin-bottom: 10px;
-  }
-
-  .service-card p { color: var(--gray); font-size: .9rem; line-height: 1.7; margin-bottom: 20px; }
-
-  .service-perks { list-style: none; margin-bottom: 26px; }
-
-  .service-perks li {
-    font-size: .87rem; color: var(--gray);
-    display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
-  }
-
-  .service-perks li::before { content: '✓'; color: var(--accent); font-weight: 800; font-size: .9rem; }
-
-  /* ── SOBRE ── */
-  #sobre {
-    display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 80px;
-  }
-
-  .sobre-visual {
-    position: relative;
-  }
-
-  .sobre-main-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 24px; padding: 40px;
-    backdrop-filter: blur(16px);
-    box-shadow: var(--glow);
-    text-align: center;
-  }
-
-  .logo-big {
-    width: 90px; height: 90px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-hot));
-    border-radius: 22px; margin: 0 auto 20px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Exo 2', sans-serif; font-weight: 900; font-size: 28px; color: #000;
-    box-shadow: 0 8px 32px rgba(245,166,35,0.35);
-  }
-
-  .sobre-main-card h3 {
-    font-family: 'Exo 2', sans-serif; font-size: 1.3rem; font-weight: 800;
-  }
-
-  .sobre-main-card p { color: var(--gray); font-size: .9rem; margin-top: 8px; }
-
-  .sobre-float {
-    position: absolute; bottom: -24px; right: -24px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-hot));
-    border-radius: 16px; padding: 18px 24px;
-    box-shadow: 0 12px 30px rgba(245,166,35,0.3);
-    color: #000;
-  }
-
-  .sobre-float strong { display: block; font-family: 'Exo 2', sans-serif; font-size: 1.6rem; font-weight: 900; }
-  .sobre-float span { font-size: .78rem; font-weight: 700; }
-
-  .values-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
-
-  .value-item {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 14px; padding: 20px;
-    backdrop-filter: blur(10px);
-    transition: border-color .3s;
-  }
-
-  .value-item:hover { border-color: rgba(245,166,35,0.4); }
-
-  .value-item .vi { font-size: 1.4rem; margin-bottom: 8px; display: block; }
-  .value-item strong { display: block; font-family: 'Exo 2', sans-serif; font-size: .95rem; font-weight: 700; margin-bottom: 4px; }
-  .value-item span { font-size: .82rem; color: var(--gray); }
-
-  /* ── CONTATO ── */
-  #contato { background: linear-gradient(180deg, transparent, rgba(13,32,69,0.5)); }
-
-  .contato-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 60px; align-items: start; }
-
-  .contato-info h2 {
-    font-family: 'Exo 2', sans-serif; font-size: 2rem; font-weight: 900;
-    margin: 16px 0 12px;
-  }
-
-  .contato-info p { color: var(--gray); font-size: .95rem; line-height: 1.7; margin-bottom: 32px; }
-
-  .contact-item {
-    display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
-  }
-
-  .contact-icon {
-    width: 44px; height: 44px; border-radius: 11px;
-    background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem; color: var(--accent); flex-shrink: 0;
-  }
-
-  .contact-item strong { display: block; font-size: .88rem; font-weight: 600; }
-  .contact-item span { font-size: .82rem; color: var(--gray); }
-
-  .form-card {
-    background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 24px; padding: 36px;
-    backdrop-filter: blur(16px);
-  }
-
-  .form-card h3 {
-    font-family: 'Exo 2', sans-serif; font-size: 1.3rem; font-weight: 800; margin-bottom: 24px;
-  }
-
-  .form-group { margin-bottom: 18px; }
-
-  .form-group label {
-    display: block; font-size: .82rem; font-weight: 600; color: var(--gray);
-    margin-bottom: 8px; letter-spacing: .3px;
-  }
-
-  .form-group input,
-  .form-group textarea {
-    width: 100%; padding: 13px 16px;
-    background: rgba(10,22,40,0.6); border: 1.5px solid rgba(255,255,255,0.08);
-    border-radius: 10px; color: var(--white);
-    font-family: 'Inter', sans-serif; font-size: .92rem;
-    transition: border-color .25s, box-shadow .25s;
-    outline: none; resize: vertical;
-  }
-
-  .form-group input:focus,
-  .form-group textarea:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(245,166,35,0.12);
-  }
-
-  .form-group textarea { min-height: 110px; }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--blue-mid);
-    border-top: 1px solid var(--border);
-    padding: 40px 6vw;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 20px;
-    position: relative; z-index: 1;
-  }
-
-  .footer-logo {
-    display: flex; align-items: center; gap: 10px;
-    font-family: 'Exo 2', sans-serif; font-weight: 700;
-    font-size: 1.1rem; color: var(--white);
-    text-decoration: none;
-  }
-
-  .footer-logo .fi {
-    width: 36px; height: 36px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-hot));
-    border-radius: 9px; display: flex; align-items: center; justify-content: center;
-    font-weight: 900; font-size: 15px; color: #000;
-  }
-
-  .footer-links { display: flex; gap: 28px; }
-  .footer-links a { color: var(--gray); font-size: .87rem; text-decoration: none; transition: color .2s; }
-  .footer-links a:hover { color: var(--accent); }
-
-  .footer-copy { color: var(--gray); font-size: .8rem; }
-
-  /* ── WHATSAPP FLOAT ── */
-  .wpp-float {
-    position: fixed; bottom: 28px; right: 28px;
-    width: 58px; height: 58px; border-radius: 50%;
-    background: #25D366;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.6rem; color: #fff;
-    box-shadow: 0 6px 24px rgba(37,211,102,0.4);
-    text-decoration: none; z-index: 999;
-    animation: wppPulse 2s ease-in-out infinite;
-    transition: transform .2s;
-  }
-
-  .wpp-float:hover { transform: scale(1.12); }
-
-  @keyframes wppPulse {
-    0%,100%{ box-shadow: 0 6px 24px rgba(37,211,102,0.4), 0 0 0 0 rgba(37,211,102,0.3); }
-    50%{ box-shadow: 0 6px 24px rgba(37,211,102,0.4), 0 0 0 14px rgba(37,211,102,0); }
-  }
-
-  /* ── SCROLL REVEAL ── */
-  .reveal {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity .6s ease, transform .6s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    .nav-links { display: none; }
-    .hamburger { display: flex; }
-
-    nav.open .nav-links {
-      display: flex; flex-direction: column; gap: 0;
-      position: fixed; inset: 0;
-      background: rgba(10,22,40,0.97);
-      backdrop-filter: blur(20px);
-      align-items: center; justify-content: center;
-      font-size: 1.3rem;
-      z-index: 1000;
-    }
-
-    nav.open .nav-links li { padding: 14px 0; }
-
-    #home { flex-direction: column; padding-top: 140px; }
-    .hero-visual { position: static; width: 100%; transform: none; margin-top: 40px; }
-    .hero-stats { gap: 24px; }
-
-    #sobre { grid-template-columns: 1fr; gap: 40px; }
-    .sobre-visual { display: none; }
-
-    .contato-grid { grid-template-columns: 1fr; gap: 40px; }
-
-    footer { flex-direction: column; align-items: flex-start; }
-  }
-
-  @media (max-width: 540px) {
-    .hero-buttons { flex-direction: column; }
-    .btn { width: 100%; justify-content: center; }
-    .values-grid { grid-template-columns: 1fr; }
-    .hero-stats { flex-wrap: wrap; gap: 20px; }
-  }
-
-  /* divider */
-  .divider {
-    width: 100%; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-    position: relative; z-index: 1;
-  }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <!-- NAV -->
 <nav id="navbar">
   <a class="nav-logo" href="#home">
-    <div class="logo-icon">L</div>
+    <div class="logo-icon">
+      <img src="imagens/logo.jpeg" alt="Lume Tecnologia" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+    </div>
     <span>Lume <em>Tecnologia</em></span>
   </a>
   <ul class="nav-links" id="navLinks">
@@ -699,17 +56,18 @@
 
   <div class="hero-visual">
     <div class="console-card">
-      <span class="console-emoji">🎮</span>
-      <h3>Xbox Series S</h3>
-      <p style="color:var(--gray);font-size:.87rem">512GB · All-Digital · 1440p</p>
-      <div class="console-price">R$ 2.199</div>
-      <p style="color:var(--gray);font-size:.78rem;margin-bottom:14px">ou 12× de R$ 183,25</p>
+      <div class="console-img-wrap">
+        <img src="imagens/ps3.png" alt="PlayStation 3">
+      </div>
+      <h3>PlayStation 3 Desbloqueado</h3>
+      <p style="color:var(--gray);font-size:.87rem">Mais de 1000 jogos gratuitos de PS1/PS2/PS3 e retrô</p>
+      <div class="console-price">R$ 899,90</div>
+      <p style="color:var(--gray);font-size:.78rem;margin-bottom:14px">Pix / Crédito / Espécie</p>
       <div class="console-badge-list">
-        <span class="tag">Novo</span>
         <span class="tag">Garantia</span>
         <span class="tag">Entrega</span>
       </div>
-      <a href="https://wa.me/5586920011227?text=Olá!%20Quero%20saber%20mais%20sobre%20o%20Xbox%20Series%20S" 
+      <a href="https://wa.me/5586920011227?text=Olá!%20Quero%20saber%20mais%20sobre%20o%20PlayStation%203" 
          class="btn btn-primary btn-sm" style="margin-top:20px" target="_blank">
         <i class="fab fa-whatsapp"></i> Pedir agora
       </a>
@@ -729,70 +87,138 @@
 
   <div class="products-grid">
     <div class="product-card reveal">
-      <span class="promo-badge">🔥 Mais vendido</span>
-      <span class="product-icon">🎮</span>
-      <h3>Xbox Series S</h3>
-      <p class="product-desc">512GB all-digital, jogos 1440p, retrocompatível com centenas de títulos.</p>
-      <div class="product-price">R$ 2.199</div>
-      <p class="product-installment">ou 12× de R$ 183,25 sem juros</p>
-      <a href="https://wa.me/5586920011227?text=Quero%20o%20Xbox%20Series%20S!" class="btn btn-primary btn-sm" target="_blank">
+      <div class="product-image"><img src="imagens/cabo.jpeg" alt="Cabo de Dados"></div>
+      <h3>Cabo de rede Cat5e</h3>
+      <p class="product-desc">Cabo de rede reforçado de alta velocidade para mais qualidade na sua internet</p>
+      <div class="product-price">R$ 39,90</div>
+      <p class="product-installment">Pix / Crédito / Espécie</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Cabo%20de%20Dados!" class="btn btn-primary btn-sm" target="_blank">
         <i class="fab fa-whatsapp"></i> Comprar agora
       </a>
     </div>
 
     <div class="product-card reveal">
-      <span class="product-icon">🎮</span>
-      <h3>PlayStation 4 Slim</h3>
-      <p class="product-desc">500GB, 1 controle original, sistema atualizado e pronto para jogar.</p>
-      <div class="product-price">R$ 1.599</div>
-      <p class="product-installment">ou 12× de R$ 133,25 sem juros</p>
-      <a href="https://wa.me/5586920011227?text=Quero%20o%20PS4%20Slim!" class="btn btn-primary btn-sm" target="_blank">
+      <span class="promo-badge">🔥 Praticidade</span>
+      <div class="product-image"><img src="imagens/adaptador.jpeg" alt="Adaptador USB"></div>
+      <h3>Adaptador USB-C</h3>
+      <p class="product-desc">Compacto e resistente, ideal para conectar seus dispositivos em qualquer lugar.</p>
+      <div class="product-price">R$ 17,90</div>
+      <p class="product-installment">Pix / Crédito / Espécie</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Adaptador%20USB!" class="btn btn-primary btn-sm" target="_blank">
         <i class="fab fa-whatsapp"></i> Comprar agora
       </a>
     </div>
 
     <div class="product-card reveal">
-      <span class="promo-badge">🎯 Oferta</span>
-      <span class="product-icon">🕹️</span>
-      <h3>Controle DualShock 4</h3>
-      <p class="product-desc">Original Sony, touchpad, vibração e compatível com PS4 e PC via USB.</p>
-      <div class="product-price">R$ 349</div>
-      <p class="product-installment">ou 6× de R$ 58,17 sem juros</p>
-      <a href="https://wa.me/5586920011227?text=Quero%20o%20Controle%20DualShock%204!" class="btn btn-primary btn-sm" target="_blank">
+      <div class="product-image"><img src="imagens/3x1.jpeg" alt="Cabo 3x1"></div>
+      <h3>Adaptador 3 em 1</h3>
+      <p class="product-desc">Um único adaptador para todos os seus aparelhos. Praticidade total no dia a dia.</p>
+      <div class="product-price">R$ 59,90</div>
+      <p class="product-installment">Pix / Crédito / Espécie</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Cabo%203x1!" class="btn btn-primary btn-sm" target="_blank">
         <i class="fab fa-whatsapp"></i> Comprar agora
       </a>
     </div>
 
     <div class="product-card reveal">
-      <span class="product-icon">🎧</span>
-      <h3>Headset Gamer</h3>
-      <p class="product-desc">Som surround 7.1, microfone com cancelamento de ruído, compatível com Xbox, PS4 e PC.</p>
-      <div class="product-price">R$ 219</div>
-      <p class="product-installment">ou 6× de R$ 36,50 sem juros</p>
-      <a href="https://wa.me/5586920011227?text=Quero%20o%20Headset%20Gamer!" class="btn btn-primary btn-sm" target="_blank">
+      <span class="promo-badge">💎 Premium</span>
+      <div class="product-image"><img src="imagens/teclado.jpeg" alt="Teclado Gamer"></div>
+      <h3>Teclado sem fio</h3>
+      <p class="product-desc">Teclas macias, qualidade essencial para seu tablet, notebook ou computador</p>
+      <div class="product-price">R$ 89,90</div>
+      <p class="product-installment">Pix / Crédito / Espécie</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Teclado%20Mecânico!" class="btn btn-primary btn-sm" target="_blank">
         <i class="fab fa-whatsapp"></i> Comprar agora
       </a>
     </div>
 
     <div class="product-card reveal">
-      <span class="product-icon">🖱️</span>
-      <h3>Mouse Gamer RGB</h3>
-      <p class="product-desc">6400 DPI ajustável, 7 botões programáveis, iluminação RGB e grip ergonômico.</p>
-      <div class="product-price">R$ 129</div>
-      <p class="product-installment">ou 3× de R$ 43,00 sem juros</p>
+      <div class="product-image"><img src="imagens/mouseg.jpeg" alt="Mouse Gamer"></div>
+      <h3>Mouse Gamer 7200 DPI</h3>
+      <p class="product-desc">Alta precisão e ergonomia para suas partidas mais intensas.</p>
+      <div class="product-price">R$ 39,90</div>
+      <p class="product-installment">Pix / Crédito / Espécie</p>
       <a href="https://wa.me/5586920011227?text=Quero%20o%20Mouse%20Gamer!" class="btn btn-primary btn-sm" target="_blank">
         <i class="fab fa-whatsapp"></i> Comprar agora
       </a>
     </div>
 
     <div class="product-card reveal">
-      <span class="promo-badge">⚡ Destaque</span>
-      <span class="product-icon">📱</span>
-      <h3>Cabo USB-C Fast Charge</h3>
-      <p class="product-desc">3 metros, carga rápida 65W, dados 480 Mbps, reforçado em nylon trançado.</p>
-      <div class="product-price">R$ 49</div>
-      <p class="product-installment">à vista no Pix</p>
-      <a href="https://wa.me/5586920011227?text=Quero%20o%20Cabo%20USB-C!" class="btn btn-primary btn-sm" target="_blank">
+      <div class="product-image"><img src="imagens/headset.jpeg" alt="Headset Gamer"></div>
+      <h3>Headset gamer com fio</h3>
+      <p class="product-desc">Som imersivo e qualidade essencial para suas partidas mais intensas.</p>
+      <div class="product-price">R$ 89,90</div>
+      <p class="product-installment">Pix / Crédito / Espécie</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Headset%20Gamer!" class="btn btn-primary btn-sm" target="_blank">
+        <i class="fab fa-whatsapp"></i> Comprar agora
+      </a>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-image"><img src="imagens/hub.jpeg" alt="HUB USB"></div>
+      <h3>HUB USB 4 Portas</h3>
+      <p class="product-desc">Expanda suas conexões com facilidade. Plug & Play sem drivers.</p>
+      <div class="product-price">R$ 21,90</div>
+      <p class="product-installment">Pix / Crédito / Espécie</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20HUB%20USB!" class="btn btn-primary btn-sm" target="_blank">
+        <i class="fab fa-whatsapp"></i> Comprar agora
+      </a>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-image"><img src="imagens/mic.jpeg" alt="Microfone"></div>
+      <h3>Microfone de Lapela</h3>
+      <p class="product-desc">Ideal para vídeos, lives e gravações com áudio limpo e profissional.</p>
+      <div class="product-price">R$ 64,90</div>
+      <p class="product-installment">Pix / Crédito / Espécie</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Microfone!" class="btn btn-primary btn-sm" target="_blank">
+        <i class="fab fa-whatsapp"></i> Comprar agora
+      </a>
+    </div>
+
+    <div class="product-card reveal">
+      <span class="promo-badge">🎧 Bluetooth</span>
+      <div class="product-image"><img src="imagens/fonesf.jpeg" alt="Fone Sem Fio"></div>
+      <h3>Fone Sem Fio TWS</h3>
+      <p class="product-desc">Liberdade total sem fios, com graves potentes e bateria de longa duração.</p>
+      <div class="product-price">R$ 79,90</div>
+      <p class="product-installment">Pix / Crédito / Espécie</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Fone%20Sem%20Fio!" class="btn btn-primary btn-sm" target="_blank">
+        <i class="fab fa-whatsapp"></i> Comprar agora
+      </a>
+    </div>
+
+    <div class="product-card reveal">
+      <span class="promo-badge">🎮 Playstation</span>
+      <div class="product-image"><img src="imagens/controleps3.jpeg" alt="Controle PS3"></div>
+      <h3>Controle PS3 Wireless</h3>
+      <p class="product-desc">Alta precisão e dual-shock para a melhor experiência nos seus clássicos.</p>
+      <div class="product-price">R$ 74,90</div>
+      <p class="product-installment">Pix / Crédito / Espécie</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Controle%20PS3!" class="btn btn-primary btn-sm" target="_blank">
+        <i class="fab fa-whatsapp"></i> Comprar agora
+      </a>
+    </div>
+
+    <div class="product-card reveal">
+      <span class="promo-badge">🎮 Xbox</span>
+      <div class="product-image"><img src="imagens/controlexbox.jpeg" alt="Controle Xbox"></div>
+      <h3>Controle Xbox 360 com fio</h3>
+      <p class="product-desc">Design ergonômico e gatilhos responsivos para performance máxima.</p>
+      <div class="product-price">R$ 89,90</div>
+      <p class="product-installment">Pix / Crédito / Espécie</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Controle%20Xbox!" class="btn btn-primary btn-sm" target="_blank">
+        <i class="fab fa-whatsapp"></i> Comprar agora
+      </a>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-image"><img src="imagens/cabohdmi.jpeg" alt="Cabo HDMI"></div>
+      <h3>Cabo HDMI 2.0 4K</h3>
+      <p class="product-desc">Qualidade de imagem ultra HD 4K com conectores banhados a ouro.</p>
+      <div class="product-price">R$ 29,90</div>
+      <p class="product-installment">Pix / Crédito / Espécie</p>
+      <a href="https://wa.me/5586920011227?text=Quero%20o%20Cabo%20HDMI!" class="btn btn-primary btn-sm" target="_blank">
         <i class="fab fa-whatsapp"></i> Comprar agora
       </a>
     </div>
@@ -934,7 +360,9 @@
 
     <div class="sobre-visual" style="position:relative">
       <div class="sobre-main-card">
-        <div class="logo-big">L</div>
+        <div class="logo-big">
+          <img src="imagens/logo.jpeg" alt="Lume Tecnologia" style="width:100%;height:100%;object-fit:cover;border-radius:18px;">
+        </div>
         <h3>Lume Tecnologia</h3>
         <p>Soluções digitais para empresas</p>
         <p style="margin-top:4px">Sites · Eletrônicos · Sistemas simples</p>
@@ -952,13 +380,9 @@
         </p>
       </div>
 
-      <div class="sobre-float">
-        <strong>102</strong>
-        <span>Seguidores no Instagram</span>
-      </div>
 
       <!-- Glow behind card -->
-      <div style="position:absolute;inset:-40px;background:radial-gradient(circle,rgba(245,166,35,0.07),transparent 70%);pointer-events:none;border-radius:50%;z-index:-1"></div>
+      <div style="position:absolute;inset:-40px;background:radial-gradient(circle,rgba(16, 177, 255,0.07),transparent 70%);pointer-events:none;border-radius:50%;z-index:-1"></div>
     </div>
   </div>
 </section>
@@ -1032,7 +456,9 @@
 <!-- FOOTER -->
 <footer>
   <a class="footer-logo" href="#home">
-    <div class="fi">L</div>
+    <div class="fi">
+      <img src="imagens/logo.jpeg" alt="Lume Tecnologia" style="width:100%;height:100%;object-fit:cover;border-radius:7px;">
+    </div>
     Lume Tecnologia
   </a>
   <nav class="footer-links">
@@ -1050,53 +476,6 @@
   <i class="fab fa-whatsapp"></i>
 </a>
 
-<script>
-  // Hamburger
-  function toggleMenu() {
-    document.getElementById('navbar').classList.toggle('open');
-  }
-
-  // Close menu on link click
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      document.getElementById('navbar').classList.remove('open');
-    });
-  });
-
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-      }
-    });
-  }, { threshold: 0.12 });
-
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-  // Nav shadow on scroll
-  window.addEventListener('scroll', () => {
-    const nav = document.getElementById('navbar');
-    nav.style.background = window.scrollY > 40
-      ? 'rgba(10,22,40,0.97)'
-      : 'rgba(10,22,40,0.85)';
-  });
-
-  // Form send
-  function sendForm() {
-    const name = document.querySelector('input[placeholder*="chamar"]').value;
-    const phone = document.querySelector('input[type="tel"]').value;
-    const subject = document.querySelector('input[placeholder*="site"]').value;
-    const msg = document.querySelector('textarea').value;
-    if (!name || !phone) {
-      alert('Por favor, preencha pelo menos o nome e o telefone.');
-      return;
-    }
-    const text = encodeURIComponent(
-      `Olá! Me chamo ${name}.\nTelefone: ${phone}\nAssunto: ${subject}\nMensagem: ${msg}`
-    );
-    window.open(`https://wa.me/5586920011227?text=${text}`, '_blank');
-  }
-</script>
+<script src="script.js"></script>
 </body>
 </html>
