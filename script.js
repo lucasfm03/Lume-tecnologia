@@ -4,7 +4,7 @@ function toggleMenu() {
   const hamburger = document.getElementById('hamburger');
   const isOpen = menu.classList.toggle('open');
   hamburger.classList.toggle('open', isOpen);
-  document.body.style.overflow = isOpen ? 'hidden' : '';
+  document.body.classList.toggle('menu-open', isOpen);
 }
 
 // Close menu on link click
@@ -12,8 +12,19 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', () => {
     document.getElementById('navLinks').classList.remove('open');
     document.getElementById('hamburger').classList.remove('open');
-    document.body.style.overflow = '';
+    document.body.classList.remove('menu-open');
   });
+});
+
+// Close menu on backdrop click
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('navLinks');
+  const hamburger = document.getElementById('hamburger');
+  if (document.body.classList.contains('menu-open') && 
+      !menu.contains(e.target) && 
+      !hamburger.contains(e.target)) {
+    toggleMenu();
+  }
 });
 
 // Scroll reveal

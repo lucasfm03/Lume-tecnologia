@@ -18,20 +18,22 @@
     </div>
     <span>Lume <em>Tecnologia</em></span>
   </a>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Início</a></li>
+    <li><a href="#produtos">Produtos</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#contato">Contato</a></li>
+    <li><a href="https://wa.me/5586920011227" class="nav-cta" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+  </ul>
+
   <div class="hamburger" id="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </div>
 </nav>
 
-<!-- MOBILE MENU (outside nav to escape stacking context) -->
-<ul class="nav-links" id="navLinks">
-  <li><a href="#home">Início</a></li>
-  <li><a href="#produtos">Produtos</a></li>
-  <li><a href="#servicos">Serviços</a></li>
-  <li><a href="#sobre">Sobre</a></li>
-  <li><a href="#contato">Contato</a></li>
-  <li><a href="https://wa.me/5586920011227" class="nav-cta" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
-</ul>
+
 
 <!-- HERO -->
 <section id="home">
@@ -324,15 +326,15 @@
 <div class="divider"></div>
 
 <!-- SOBRE -->
-<section id="sobre" style="display:block">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center" class="sobre-wrap reveal">
+<section id="sobre">
+  <div class="sobre-wrap reveal">
     <div>
       <p class="section-label">Quem somos</p>
       <h2 class="section-title">A empresa por trás da <span style="color:var(--accent)">Lume</span></h2>
-      <p style="color:var(--gray);font-size:.97rem;line-height:1.75;margin-bottom:28px">
+      <p class="section-text">
         A Lume Tecnologia nasceu com um propósito claro: levar tecnologia de qualidade para empresas e consumidores de Teresina com honestidade, preços justos e atendimento humanizado.
       </p>
-      <p style="color:var(--gray);font-size:.97rem;line-height:1.75;margin-bottom:40px">
+      <p class="section-text">
         Atuamos tanto na revenda de consoles e eletrônicos quanto na criação de soluções digitais — sites, lojas virtuais e sistemas simples — para negócios locais que querem crescer no ambiente online.
       </p>
 
@@ -369,7 +371,7 @@
         <p>Soluções digitais para empresas</p>
         <p style="margin-top:4px">Sites · Eletrônicos · Sistemas simples</p>
 
-        <div style="margin-top:28px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+        <div class="tag-list">
           <span class="tag">PlayStation</span>
           <span class="tag">Xbox</span>
           <span class="tag">Sites</span>
