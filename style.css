@@ -734,7 +734,6 @@ footer {
     content: '';
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(4px);
     z-index: 1050;
     animation: fadeIn 0.3s ease;
   }
