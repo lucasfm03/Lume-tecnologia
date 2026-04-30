@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lume Tecnologia — Soluções Digitais</title>
-<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=Inter:wght@300;400;500&family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -73,6 +73,52 @@
   </div>
 
   <div class="hero-visual">
+    <div class="hero-showcase">
+      <div class="game-card">
+        <div class="game-card-head">
+          <div>
+            <p class="game-kicker">Desafio interativo</p>
+            <h3>Jogue agora e desvie do trafego</h3>
+          </div>
+          <div class="game-score-pill">
+            <span>Pontos</span>
+            <strong id="lume-game-score">0</strong>
+          </div>
+        </div>
+
+        <p class="game-intro">Um jogo simples e interativo para entreter e mostrar um pouco da tecnologia que oferecemos. Desvie dos carros, acumule pontos e divirta-se!</p>
+
+        <div class="game-shell" id="lume-game-shell">
+          <canvas class="lume-game-canvas" id="lume-game-canvas"></canvas>
+          <div class="game-overlay" id="lume-game-result" aria-live="polite">
+            <div class="game-result-card">
+              <p class="game-result-label">Game Over</p>
+              <h4>Voce fez <span id="lume-game-final-score">0</span> pontos</h4>
+              <p>Quer tentar de novo ou falar com a Lume sobre um site tão marcante quanto esse?</p>
+              <div class="game-result-actions">
+                <button type="button" class="btn btn-primary" id="lume-game-retry">
+                  <i class="fas fa-rotate-right"></i> Jogar de novo
+                </button>
+                <a href="https://wa.me/5586920011227?text=Ola!%20Quero%20um%20site%20interativo%20como%20esse." class="btn btn-outline" target="_blank">
+                  <i class="fab fa-whatsapp"></i> Quero algo assim
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-controls" id="lume-game-controls">
+          <button type="button" id="lume-game-forward" aria-label="Mover para frente">&#9650;</button>
+          <button type="button" id="lume-game-left" aria-label="Mover para a esquerda">&#9664;</button>
+          <button type="button" id="lume-game-backward" aria-label="Mover para tras">&#9660;</button>
+          <button type="button" id="lume-game-right" aria-label="Mover para a direita">&#9654;</button>
+        </div>
+
+        <div class="game-footer">
+          <span><i class="fas fa-keyboard"></i> Use as setas do teclado ou os botoes</span>
+          <span><i class="fas fa-mobile-screen-button"></i> Funciona no celular tambem</span>
+        </div>
+      </div>
     <div class="console-card">
       <div class="console-img-wrap">
         <img src="imagens/xbox360.jpeg" alt="Xbox 360">
@@ -89,6 +135,7 @@
          class="btn btn-primary btn-sm" style="margin-top:20px" target="_blank">
         <i class="fab fa-whatsapp"></i> Pedir agora
       </a>
+    </div>
     </div>
   </div>
 </section>
